@@ -1,5 +1,5 @@
-import { createStore, compose, applyMiddleware,  } from 'redux';
-// import userAuthReducer from './reducers/userAuthReducer';
+import { createStore, compose, applyMiddleware, combineReducers  } from 'redux';
+import snackbarReducer from './reducers/snackbarReducer';
 
 /*
 THIS SOLUTION HAS BEEN TAKEN FORM THE STACKOVERFLOW
@@ -15,18 +15,12 @@ declare global {
 // FOR REDUX DEV TOOL WITH ADVANCED CONFIGRATIONS
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-// const rootReducer = combineReducers({
-//   userAuth: userAuthReducer
-// });
+const rootReducer = combineReducers({
+  snackbar: snackbarReducer
+});
 
-const initialState = {
-    name: 'shahzaib'
-}
+export type AppState = ReturnType<typeof rootReducer>
 
-const reducer = (state = initialState, _action: any) => {
-    return state
-}
-
-const store = createStore(reducer, composeEnhancers(applyMiddleware()));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
 
 export default store;
