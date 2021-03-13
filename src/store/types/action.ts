@@ -1,16 +1,16 @@
 import { CLOSE_SNACKBAR, OPEN_SNACKBAR } from "../actions/actionTypes";
-import { snackbarState } from "./types";
+import { SnackbarState } from "./types";
 
-export interface openSnackbar {
+export interface OpenSnackbar {
     type: typeof OPEN_SNACKBAR,
-    payload: snackbarState
+    payload: SnackbarState
 }
 
-export interface closeSnackbar {
+export interface CloseSnackbar {
     type: typeof CLOSE_SNACKBAR,
-    payload: snackbarState
+    payload: SnackbarState
 }
 
-export type snackbarActionTypes = openSnackbar | closeSnackbar;
+export type snackbarActionTypes = OpenSnackbar | CloseSnackbar;
 
 export type AppActionTypes = snackbarActionTypes

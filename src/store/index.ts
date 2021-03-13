@@ -1,5 +1,7 @@
 import { createStore, compose, applyMiddleware, combineReducers  } from 'redux';
+import thunk, { ThunkMiddleware } from 'redux-thunk';
 import snackbarReducer from './reducers/snackbarReducer';
+import { AppActionTypes } from './types/action';
 
 /*
 THIS SOLUTION HAS BEEN TAKEN FORM THE STACKOVERFLOW
@@ -21,6 +23,6 @@ const rootReducer = combineReducers({
 
 export type AppState = ReturnType<typeof rootReducer>
 
-const store = createStore(rootReducer, composeEnhancers(applyMiddleware()));
+const store = createStore(rootReducer, composeEnhancers(applyMiddleware(thunk as ThunkMiddleware<AppState, AppActionTypes>)));
 
 export default store;

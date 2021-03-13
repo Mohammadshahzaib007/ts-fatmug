@@ -1,12 +1,13 @@
-import { snackbarState } from "../types/types"
+import { snackbarActionTypes } from "../types/action"
+import { SnackbarState } from "../types/types"
 
-const snackbarInitialState : snackbarState = {
+const snackbarInitialState : SnackbarState = {
     open: false,
     color: '',
     msg: ''
 }
 
-const snackbarReducer = (state = snackbarInitialState, action) => {
+const snackbarReducer = (state = snackbarInitialState, action: snackbarActionTypes): SnackbarState => {
     return state
 }
 
