@@ -4,10 +4,13 @@ import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
-import { Container, Theme } from "@material-ui/core";
+import { CircularProgress, Container, Theme } from "@material-ui/core";
 import { Link, useLocation } from "react-router-dom";
 import { connect } from "react-redux";
 import { AppState } from "../../store";
+import { ThunkDispatch } from "redux-thunk";
+import { AppActionTypes } from "../../store/types/action";
+import { authLogOut } from "../../store/actions/auth";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -23,6 +26,8 @@ const useStyles = makeStyles((theme: Theme) => ({
 
 type Props = {
   userName: string | null | undefined;
+  isLoading: boolean;
+  onLogout: Function;
 };
 
 function TopBar(props: Props) {
@@ -30,23 +35,11 @@ function TopBar(props: Props) {
 
   const { pathname } = useLocation();
 
-  const { userName } = props;
+  const { userName, isLoading, onLogout } = props;
 
-  const navLinks: Array<{
-    name: string;
-    link: string;
-    variant: "text" | "contained" | "outlined" | undefined;
-    color: "inherit" | "primary" | "secondary" | "default" | undefined;
-  }> = [
-    { name: "write", link: "/write", variant: "contained", color: "secondary" },
-    {
-      name: "your articles",
-      link: "/your-articles",
-      variant: "outlined",
-      color: "secondary",
-    },
-    { name: "Logout", link: "#", variant: "text", color: "secondary" },
-  ];
+  const logOutHandler = () => {
+    onLogout();
+  };
 
   return (
     <div className={classes.root}>
@@ -71,21 +64,55 @@ function TopBar(props: Props) {
                 Publish
               </Button>
             )}
-            {navLinks.map((item, i) => (
-              <Link to={item.link} key={i}>
-                <Button
-                  style={{
-                    marginLeft: "1.875rem",
-                    color: "white",
-                    borderColor: "white",
-                  }}
-                  variant={item.variant}
-                  color={item.color}
-                >
-                  {item.name}
-                </Button>
-              </Link>
-            ))}
+            {userName && (
+              <>
+                {" "}
+                <Link to="/write">
+                  <Button
+                    style={{
+                      marginLeft: "1.875rem",
+                      color: "white",
+                      borderColor: "white",
+                    }}
+                    variant="contained"
+                    color="secondary"
+                  >
+                    Write
+                  </Button>
+                </Link>
+                <Link to="/your-articles">
+                  <Button
+                    style={{
+                      marginLeft: "1.875rem",
+                      color: "white",
+                      borderColor: "white",
+                    }}
+                    variant="outlined"
+                    color="secondary"
+                  >
+                    Your Articles
+                  </Button>
+                </Link>
+                <Link to="#">
+                  {isLoading ? (
+                    <CircularProgress size={20} style={{ color: "white" }} />
+                  ) : (
+                    <Button
+                      onClick={logOutHandler}
+                      style={{
+                        marginLeft: "1.875rem",
+                        color: "white",
+                        borderColor: "white",
+                      }}
+                      variant="text"
+                      color="secondary"
+                    >
+                      Logout
+                    </Button>
+                  )}
+                </Link>
+              </>
+            )}
           </Toolbar>
         </Container>
       </AppBar>
@@ -96,7 +123,16 @@ function TopBar(props: Props) {
 const mapStateToProps = (state: AppState) => {
   return {
     userName: state.auth.userName,
+    isLoading: state.auth.isLoading,
   };
 };
 
-export default connect(mapStateToProps)(TopBar);
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+) => {
+  return {
+    onLogout: () => dispatch(authLogOut()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TopBar);

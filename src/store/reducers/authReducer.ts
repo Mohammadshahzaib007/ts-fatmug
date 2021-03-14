@@ -33,6 +33,26 @@ const authReducer = (state = authIinitialState, action: AuthActionTypes): AuthSt
                 error: action.error.message,
                 isLoading: false
             }
+        case actionTypes.LOG_OUT_START:
+            return {
+                ...state,
+                error: null,
+                isLoading: true
+            }
+
+        case actionTypes.LOG_OUT_SUCCESS:
+            return {
+                ...state,
+                userName: null,
+                userId: null,
+                error: null,
+                isLoading: false,
+            }
+        case actionTypes.LOG_OUT_FAIL: 
+        return {
+            ...state,
+            error: action.error.message
+        }
         default:
             return state
     }

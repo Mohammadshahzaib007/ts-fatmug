@@ -5,9 +5,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { AppState } from "../store";
 import { SnackbarState } from "../store/types/types";
-import { Dispatch } from "redux";
 import { closeSnackbar } from "../store/actions/snackbar";
 import { AppActionTypes } from "../store/types/action";
+import { ThunkDispatch } from "redux-thunk";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -57,7 +57,7 @@ function GlobalSnackbar(props: any) {
   );
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>) => ({
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) => ({
   onCloseSnackbar: () => dispatch(closeSnackbar()),
 });
 

@@ -1,6 +1,6 @@
 import { Dispatch } from "redux"
-import { AppActionTypes, AuthFail, AuthStart } from "../types/action"
-import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS } from "./actionTypes"
+import { AppActionTypes, AuthFail, AuthStart, LogOutStart, LogOutFail, LogOutSuccess } from "../types/action"
+import { AUTH_FAIL, AUTH_START, AUTH_SUCCESS, LOG_OUT_START, LOG_OUT_FAIL, LOG_OUT_SUCCESS } from "./actionTypes"
 
 import { auth } from '../../firebase'
 import { openSnackbar } from "./snackbar"
@@ -26,6 +26,23 @@ export const authFail = (error: Error): AppActionTypes => {
     return {
         type: AUTH_FAIL,
         error: error
+    }
+}
+
+export const logOutStart = (): LogOutStart => {
+    return {
+        type: LOG_OUT_START
+    }
+}
+export const logOutSuccess = (): LogOutSuccess => {
+    return {
+        type: LOG_OUT_SUCCESS
+    }
+}
+export const logOutFail = (error: Error): LogOutFail => {
+    return {
+        type: LOG_OUT_FAIL,
+        error: error,
     }
 }
 
@@ -92,5 +109,42 @@ export const onAuth = (email: string, password: string, name?: string) => {
                 dispatch(authFail(err))
             });
 
+    }
+}
+
+export const authLogOut = () => {
+    return (dispatch: Dispatch<AppActionTypes>) => {
+        auth.signOut().then(_response => {
+            dispatch(openSnackbar({ color: 'success', open: true, msg: 'Logout succesful' }))
+        }).catch((error: Error) => {
+            dispatch(logOutFail(error))
+
+            dispatch(openSnackbar(
+                {
+                    color: 'error',
+                    open: true,
+                    msg: 'Something went wrong please try agin later'
+                }))
+        })
+    }
+}
+
+export const onAuthChange = () => {
+    return (dispatch: Dispatch<AppActionTypes>) => {
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                dispatch(authSuccess({
+                    userName: user.displayName,
+                    userId: user?.uid,
+                    token: user?.getIdToken()
+                }))
+            } else {
+                dispatch(authSuccess({
+                    userName: null,
+                    userId: null,
+                    token: null
+                }))
+            }
+        })
     }
 }

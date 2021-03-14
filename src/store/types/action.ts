@@ -1,4 +1,4 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, CLOSE_SNACKBAR, OPEN_SNACKBAR } from "../actions/actionTypes";
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, CLOSE_SNACKBAR, OPEN_SNACKBAR, LOG_OUT_START, LOG_OUT_SUCCESS, LOG_OUT_FAIL } from "../actions/actionTypes";
 import { SnackbarState } from "./types";
 
 // FOR SNACKBAR
@@ -32,6 +32,19 @@ export interface AuthFail {
     error: Error
 }
 
-export type AuthActionTypes = AuthStart | AuthSuccess | AuthFail
+export interface LogOutStart {
+    type: typeof LOG_OUT_START,
+}
+
+export interface LogOutSuccess {
+    type: typeof LOG_OUT_SUCCESS,
+}
+
+export interface LogOutFail {
+    type: typeof LOG_OUT_FAIL,
+    error: Error
+}
+
+export type AuthActionTypes = AuthStart | AuthSuccess | AuthFail | LogOutStart | LogOutSuccess | LogOutFail
 
 export type AppActionTypes = snackbarActionTypes | AuthActionTypes
