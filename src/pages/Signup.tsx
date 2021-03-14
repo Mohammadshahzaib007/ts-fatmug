@@ -8,6 +8,7 @@ import {
   InputAdornment,
   TextField,
   Button,
+  CircularProgress 
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import LockIcon from "@material-ui/icons/Lock";
@@ -19,6 +20,7 @@ import { openSnackbar } from "../store/actions/snackbar";
 import { SnackbarState } from "../store/types/types";
 import { onAuth } from "../store/actions/auth";
 import { ThunkDispatch } from "redux-thunk";
+import { AppState } from "../store";
 
 const useStyles = makeStyles({
   formContainer: {
@@ -37,13 +39,14 @@ const useStyles = makeStyles({
 
 type Props = {
   openSnackbar: (payload: SnackbarState) => void;
-  onAuth: (email: string, password: string, name: string) => void
+  onAuth: (email: string, password: string, name: string) => void;
+  isLoading: boolean;
 };
 
 function Signup(props: Props) {
   const classes = useStyles();
 
-  const { openSnackbar, onAuth } = props;
+  const { openSnackbar, onAuth, isLoading } = props;
 
   const [state, setState] = useState({
     name: "",
@@ -59,7 +62,6 @@ function Signup(props: Props) {
   };
 
   const onSubmitHandler = () => {
-
     // validation or other validation will be done by firebase
     if (state.email === "" || state.password === "" || state.name === "") {
       openSnackbar({
@@ -69,9 +71,9 @@ function Signup(props: Props) {
       });
       return;
     }
-  
-    // FROM REDUX 
-    onAuth(state.email, state.password, state.name)
+
+    // FROM REDUX
+    onAuth(state.email, state.password, state.name);
   };
 
   return (
@@ -173,8 +175,9 @@ function Signup(props: Props) {
                   color="primary"
                   size="medium"
                   onClick={onSubmitHandler}
+                  disabled={isLoading}
                 >
-                  SIGN IN
+                {isLoading ? <CircularProgress  size={20} style={{color: 'white'}} /> : ' SIGN up'}
                 </Button>
               </FormControl>
             </div>
@@ -185,7 +188,9 @@ function Signup(props: Props) {
   );
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+) => {
   return {
     openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
     onAuth: (email: string, password: string, name: string) =>
@@ -193,4 +198,10 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) =
   };
 };
 
-export default connect(null, mapDispatchToProps)(Signup);
+const mapStateToProps = (state: AppState) => {
+  return {
+    isLoading: state.auth.isLoading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);

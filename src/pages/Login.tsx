@@ -8,6 +8,7 @@ import {
   InputAdornment,
   TextField,
   Button,
+  CircularProgress
 } from "@material-ui/core";
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import LockIcon from "@material-ui/icons/Lock";
@@ -19,6 +20,7 @@ import { openSnackbar } from "../store/actions/snackbar";
 import { SnackbarState } from "../store/types/types";
 import { ThunkDispatch } from "redux-thunk";
 import { onAuth } from "../store/actions/auth";
+import { AppState } from "../store";
 
 const useStyles = makeStyles({
   formContainer: {
@@ -37,12 +39,13 @@ const useStyles = makeStyles({
 type Props = {
   openSnackbar: (payload: SnackbarState) => void;
   onAuth: (email: string, password: string) => void;
+  isLoading: boolean;
 };
 
 function Login(props: Props) {
   const classes = useStyles();
 
-  const { openSnackbar, onAuth } = props;
+  const { openSnackbar, onAuth, isLoading } = props;
 
   const [state, setState] = useState({
     email: "",
@@ -155,8 +158,9 @@ function Login(props: Props) {
                   color="primary"
                   size="medium"
                   onClick={onSubmitHandler}
+                  disabled={isLoading}
                 >
-                  SIGN IN
+                {isLoading ? <CircularProgress  size={20} style={{color: 'white'}} /> : ' SIGN up'}
                 </Button>
               </FormControl>
             </div>
@@ -167,12 +171,20 @@ function Login(props: Props) {
   );
 }
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) => {
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+) => {
   return {
     openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
     onAuth: (email: string, password: string) =>
-    dispatch(onAuth(email, password)),
+      dispatch(onAuth(email, password)),
   };
 };
 
-export default connect(null, mapDispatchToProps)(Login);
+const mapStateToProps = (state: AppState) => {
+  return {
+    isLoading: state.auth.isLoading,
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);
