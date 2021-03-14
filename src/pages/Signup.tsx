@@ -185,7 +185,7 @@ function Signup(props: Props) {
 const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) => {
   return {
     openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
-    onAuth: (eamil: string, password: string, name: string) =>
+    onAuth: (email: string, password: string, name: string) =>
       dispatch(auth(email, password, name)),
   };
 };
