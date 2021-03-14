@@ -42,7 +42,7 @@ function GlobalSnackbar(props: any) {
     <div className={classes.root}>
       <Snackbar
         open={open}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}
         anchorOrigin={{
           vertical: "top",
