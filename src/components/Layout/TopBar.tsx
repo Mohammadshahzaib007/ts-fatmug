@@ -6,6 +6,8 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { Container, Theme } from "@material-ui/core";
 import { Link, useLocation } from "react-router-dom";
+import { connect } from "react-redux";
+import { AppState } from "../../store";
 
 const useStyles = makeStyles((theme: Theme) => ({
   root: {
@@ -19,16 +21,22 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
-export default function TopBar() {
+type Props = {
+  userName: string | null | undefined;
+};
+
+function TopBar(props: Props) {
   const classes = useStyles();
 
   const { pathname } = useLocation();
 
+  const { userName } = props;
+
   const navLinks: Array<{
     name: string;
     link: string;
-    variant: 'text' | 'contained' | 'outlined' | undefined;
-    color:  "inherit" | "primary" | "secondary" | "default" | undefined;
+    variant: "text" | "contained" | "outlined" | undefined;
+    color: "inherit" | "primary" | "secondary" | "default" | undefined;
   }> = [
     { name: "write", link: "/write", variant: "contained", color: "secondary" },
     {
@@ -47,7 +55,7 @@ export default function TopBar() {
           <Toolbar disableGutters>
             <Typography variant="h6" className={classes.title}>
               <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-                <b>FATMUG</b> | Greetings! UserName
+                <b>FATMUG</b> | Greetings! {userName}
               </Link>
             </Typography>
             {pathname === "/write" && (
@@ -84,3 +92,11 @@ export default function TopBar() {
     </div>
   );
 }
+
+const mapStateToProps = (state: AppState) => {
+  return {
+    userName: state.auth.userName,
+  };
+};
+
+export default connect(mapStateToProps)(TopBar);

@@ -7,8 +7,9 @@ export interface SnackbarState {
 
 // authentication state type
 export interface AuthState {
-    token: null | string,
-    userId: string,
+    userName: string | null | undefined,
+    token: string | null | undefined | Promise<string>,
+    userId: string | null | undefined
     error: string | null,
     isLoading: boolean
 }

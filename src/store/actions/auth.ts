@@ -11,7 +11,11 @@ export const authStart = (): AppActionTypes => {
     }
 }
 
-export const authSuccess = (payload: { email: string, password: string }): AppActionTypes => {
+export const authSuccess = (payload: {
+    userName: string | null | undefined,
+    token: string | null | undefined | Promise<string>,
+    userId: string | null | undefined
+}): AppActionTypes => {
     return {
         type: AUTH_SUCCESS,
         payload: payload
@@ -38,8 +42,21 @@ export const onAuth = (email: string, password: string, name?: string) => {
                     response.user?.updateProfile({
                         displayName: name
                     })
-                    dispatch(authSuccess({ email: email, password: password }))
-                    dispatch(openSnackbar({ color: "success", open: true, msg: "Signup successful" }))
+
+                    const currentUser = auth.currentUser
+                    console.log(name)
+                    dispatch(authSuccess({
+                        userName: name,
+                        userId: response.user?.uid,
+                        token: currentUser?.getIdToken()
+                    }))
+
+                    //FOR SHOWING SUCCESS MESSAGE 
+                    dispatch(openSnackbar({
+                        color: "success",
+                        open: true,
+                        msg: "Signup successful"
+                    }))
                 })
                 .catch((err: Error) => {
                     console.log(err);
@@ -54,8 +71,20 @@ export const onAuth = (email: string, password: string, name?: string) => {
         auth.signInWithEmailAndPassword(email, password).then(response => {
             console.log(response);
 
-            dispatch(authSuccess({ email: email, password: password }))
-            dispatch(openSnackbar({ color: "success", open: true, msg: "Login successful" }))
+            const currentUser = auth.currentUser
+
+            dispatch(authSuccess({
+                userName: currentUser?.displayName,
+                userId: currentUser?.uid,
+                token: currentUser?.getIdToken()
+            }))
+
+            //FOR SHOWING SUCCESS MESSAGE 
+            dispatch(openSnackbar({
+                color: "success",
+                open: true,
+                msg: "Login successful"
+            }))
         })
             .catch((err: Error) => {
                 console.log(err);

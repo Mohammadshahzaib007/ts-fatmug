@@ -3,6 +3,7 @@ import { AuthActionTypes } from '../types/action'
 import { AuthState } from '../types/types'
 
 const authIinitialState: AuthState = {
+    userName: '',
     token: null,
     userId: '',
     error: null,
@@ -20,6 +21,9 @@ const authReducer = (state = authIinitialState, action: AuthActionTypes): AuthSt
         case actionTypes.AUTH_SUCCESS:
             return {
                 ...state,
+                userName: action.payload.userName,
+                token: action.payload.token,
+                userId: action.payload.userId,
                 error: null,
                 isLoading: false
             }

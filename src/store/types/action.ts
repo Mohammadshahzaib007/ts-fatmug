@@ -20,7 +20,11 @@ export interface AuthStart {
 
 export interface AuthSuccess {
     type: typeof AUTH_SUCCESS,
-    payload: {email: string, password: string}
+    payload: {
+        userName: string | null | undefined,
+        token: string | null | undefined | Promise<string>,
+        userId: string | null | undefined,
+    }
 }
 
 export interface AuthFail {
