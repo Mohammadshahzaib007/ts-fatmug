@@ -17,7 +17,7 @@ import { connect } from "react-redux";
 import { AppActionTypes } from "../store/types/action";
 import { openSnackbar } from "../store/actions/snackbar";
 import { SnackbarState } from "../store/types/types";
-import { auth } from "../store/actions/auth";
+import { onAuth } from "../store/actions/auth";
 import { ThunkDispatch } from "redux-thunk";
 
 const useStyles = makeStyles({
@@ -37,7 +37,7 @@ const useStyles = makeStyles({
 
 type Props = {
   openSnackbar: (payload: SnackbarState) => void;
-  onAuth: Function
+  onAuth: (email: string, password: string, name: string) => void
 };
 
 function Signup(props: Props) {
@@ -59,16 +59,19 @@ function Signup(props: Props) {
   };
 
   const onSubmitHandler = () => {
+
+    // validation or other validation will be done by firebase
     if (state.email === "" || state.password === "" || state.name === "") {
       openSnackbar({
-        color: "warning",
+        color: "error",
         open: true,
         msg: "Please enter valid information",
       });
       return;
     }
+  
+    // FROM REDUX 
     onAuth(state.email, state.password, state.name)
-    openSnackbar({ color: "success", open: true, msg: "Signup successful" });
   };
 
   return (
@@ -186,7 +189,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) =
   return {
     openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
     onAuth: (email: string, password: string, name: string) =>
-      dispatch(auth(email, password, name)),
+      dispatch(onAuth(email, password, name)),
   };
 };
 

@@ -25,7 +25,7 @@ export interface AuthSuccess {
 
 export interface AuthFail {
     type: typeof AUTH_FAIL,
-    error: string
+    error: Error
 }
 
 export type AuthActionTypes = AuthStart | AuthSuccess | AuthFail

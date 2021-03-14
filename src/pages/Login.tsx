@@ -14,10 +14,11 @@ import LockIcon from "@material-ui/icons/Lock";
 
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
-import { Dispatch } from "redux";
 import { AppActionTypes } from "../store/types/action";
 import { openSnackbar } from "../store/actions/snackbar";
 import { SnackbarState } from "../store/types/types";
+import { ThunkDispatch } from "redux-thunk";
+import { onAuth } from "../store/actions/auth";
 
 const useStyles = makeStyles({
   formContainer: {
@@ -35,12 +36,13 @@ const useStyles = makeStyles({
 
 type Props = {
   openSnackbar: (payload: SnackbarState) => void;
+  onAuth: (email: string, password: string) => void;
 };
 
 function Login(props: Props) {
   const classes = useStyles();
 
-  const { openSnackbar } = props;
+  const { openSnackbar, onAuth } = props;
 
   const [state, setState] = useState({
     email: "",
@@ -55,12 +57,18 @@ function Login(props: Props) {
   };
 
   const onSubmitHandler = () => {
+    // validation or other validation will be done by firebase
     if (state.email === "" || state.password === "") {
-      openSnackbar({color: 'warning', open: true, msg: 'Please enter valid information'})
+      openSnackbar({
+        color: "error",
+        open: true,
+        msg: "Please enter valid information",
+      });
       return;
     }
-  
-    openSnackbar({color: 'success', open: true, msg: 'Login successful'})
+
+    // FROM REDUX
+    onAuth(state.email, state.password);
   };
 
   return (
@@ -159,9 +167,11 @@ function Login(props: Props) {
   );
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<any, any, AppActionTypes>) => {
   return {
     openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
+    onAuth: (email: string, password: string) =>
+    dispatch(onAuth(email, password)),
   };
 };
 
