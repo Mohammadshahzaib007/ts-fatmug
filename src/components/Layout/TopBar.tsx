@@ -48,7 +48,7 @@ function TopBar(props: Props) {
           <Toolbar disableGutters>
             <Typography variant="h6" className={classes.title}>
               <Link to="/" style={{ color: "white", textDecoration: "none" }}>
-                <b>FATMUG</b> | Greetings! {userName}
+                <b>FATMUG</b> {userName && `| Greetings!  ${userName}`}
               </Link>
             </Typography>
             {pathname === "/write" && (
