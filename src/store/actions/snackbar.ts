@@ -16,6 +16,5 @@ export const openSnackbar = (payload: SnackbarState): AppActionTypes => {
 export const closeSnackbar = (): AppActionTypes => {
     return {
         type: CLOSE_SNACKBAR,
-        payload: { open: false, color: '', msg: '' }
     }
 }

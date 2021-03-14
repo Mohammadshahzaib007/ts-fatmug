@@ -5,7 +5,9 @@ import { makeStyles, Theme } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import { AppState } from "../store";
 import { SnackbarState } from "../store/types/types";
-
+import { Dispatch } from "redux";
+import { closeSnackbar } from "../store/actions/snackbar";
+import { AppActionTypes } from "../store/types/action";
 
 function Alert(props: AlertProps) {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -20,18 +22,20 @@ const useStyles = makeStyles((theme: Theme) => ({
   },
 }));
 
- function GlobalSnackbar(props: any) {
+// PROPS TYPE
+
+function GlobalSnackbar(props: any) {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(true);
+  // const [open, setOpen] = React.useState(true);
 
-  console.log(props.snackbarData)
+  const { open, color, msg, onCloseSnackbar } = props;
 
-  const handleClose = (event?: React.SyntheticEvent, reason?: string) => {
+  const handleClose = (_event?: React.SyntheticEvent, reason?: string) => {
     if (reason === "clickaway") {
       return;
     }
-
-    setOpen(false);
+    onCloseSnackbar();
+    // setOpen(false);
   };
 
   return (
@@ -45,28 +49,22 @@ const useStyles = makeStyles((theme: Theme) => ({
           horizontal: "right",
         }}
       >
-        <Alert onClose={handleClose} severity="success">
-          This is a success message!
+        <Alert onClose={handleClose} severity={color}>
+          {msg}
         </Alert>
       </Snackbar>
-      {/* <Alert severity="error">This is an error message!</Alert>
-      <Alert severity="warning">This is a warning message!</Alert>
-      <Alert severity="info">This is an information message!</Alert>
-      <Alert severity="success">This is a success message!</Alert> */}
     </div>
   );
 }
 
-
-
-const mapDispatchToProps = dispatch => {
- 
-}
+const mapDispatchToProps = (dispatch: Dispatch<AppActionTypes>) => ({
+  onCloseSnackbar: () => dispatch(closeSnackbar()),
+});
 
 const mapStateToProps = (state: AppState): SnackbarState => ({
   open: state.snackbar.open,
   color: state.snackbar.color,
-  msg: state.snackbar.msg
-})
+  msg: state.snackbar.msg,
+});
 
-export default connect(mapStateToProps, null)(GlobalSnackbar);
+export default connect(mapStateToProps, mapDispatchToProps)(GlobalSnackbar);

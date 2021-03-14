@@ -8,7 +8,6 @@ export interface OpenSnackbar {
 
 export interface CloseSnackbar {
     type: typeof CLOSE_SNACKBAR,
-    payload: SnackbarState
 }
 
 export type snackbarActionTypes = OpenSnackbar | CloseSnackbar;
