@@ -1,4 +1,4 @@
-import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, CLOSE_SNACKBAR, OPEN_SNACKBAR, LOG_OUT_START, LOG_OUT_SUCCESS, LOG_OUT_FAIL, ADD_POST, DELETE_POST } from "../actions/actionTypes";
+import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, CLOSE_SNACKBAR, OPEN_SNACKBAR, LOG_OUT_START, LOG_OUT_SUCCESS, LOG_OUT_FAIL, ADD_POST, DELETE_POST, FETCH_BLOGS } from "../actions/actionTypes";
 import { Posts, SnackbarState } from "./types";
 
 // FOR SNACKBAR
@@ -50,13 +50,16 @@ export type AuthActionTypes = AuthStart | AuthSuccess | AuthFail | LogOutStart |
 // FOR POST
 export interface AddPost {
     type: typeof ADD_POST,
-    payload: Posts
 }
 
 export interface DeletePost {
     type: typeof DELETE_POST
 }
 
-export type PostActionTypes = AddPost | DeletePost
+export interface FetchPost {
+    type: typeof FETCH_BLOGS
+}
+
+export type PostActionTypes = AddPost | DeletePost | FetchPost
 
 export type AppActionTypes = snackbarActionTypes | AuthActionTypes | PostActionTypes

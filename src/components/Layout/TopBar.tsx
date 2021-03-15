@@ -5,7 +5,7 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { CircularProgress, Container, Theme } from "@material-ui/core";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { AppState } from "../../store";
 import { ThunkDispatch } from "redux-thunk";
@@ -33,8 +33,6 @@ type Props = {
 function TopBar(props: Props) {
   const classes = useStyles();
 
-  const { pathname } = useLocation();
-
   const { userName, isLoading, onLogout } = props;
 
   const logOutHandler = () => {
@@ -51,19 +49,7 @@ function TopBar(props: Props) {
                 <b>FATMUG</b> {userName && `| Greetings!  ${userName}`}
               </Link>
             </Typography>
-            {pathname === "/write" && (
-              <Button
-                style={{
-                  marginLeft: "1.875rem",
-                  color: "white",
-                  borderColor: "white",
-                }}
-                variant="contained"
-                color="secondary"
-              >
-                Publish
-              </Button>
-            )}
+
             {userName && (
               <>
                 {" "}

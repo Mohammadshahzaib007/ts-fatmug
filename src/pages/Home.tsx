@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Container, Grid, Typography } from "@material-ui/core";
 import HomePageBlogCard from "../components/HomePageBlogCard";
 import TopArticleCard from "../components/TopArticleCard";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
+import { AppActionTypes } from "../store/types/action";
+import { onFetchBlogs } from "../store/actions/post";
 
-function Home() {
+type Props = {
+  onFetchBlogs: Function;
+};
+
+function Home(props: Props) {
+  const { onFetchBlogs } = props;
+
+  useEffect(() => {
+    onFetchBlogs();
+  }, []);
+
   return (
     <section>
       <Container>
@@ -56,4 +70,12 @@ function Home() {
   );
 }
 
-export default Home;
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+) => {
+  return {
+    onFetchBlogs: () => dispatch(onFetchBlogs()),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Home);

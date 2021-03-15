@@ -81,8 +81,6 @@ function WriteArticle(props: Props) {
     }
   };
 
-  const pusblishBtn = document.getElementById("publish-button")!;
-
   const postAddHandler = () => {
     if (post.title === "" || post.description === "" || post.img === null) {
       openSnackbar({
@@ -102,20 +100,23 @@ function WriteArticle(props: Props) {
   };
 
   return (
-    <section>
+    <section >
+      <Container style={{display: 'flex', flexDirection: 'column'}}>
       <Button
-        // onClick={postAddHandler}
+        onClick={postAddHandler}
         style={{
           marginLeft: "1.875rem",
           color: "white",
           borderColor: "white",
+          width: 'fit-content',
+          height: '35px',
+          alignSelf: 'flex-end'
         }}
         variant="contained"
         color="secondary"
       >
         Publish
       </Button>
-      <Container>
         <Grid container>
           <Grid item xs={12}>
             <FormControl fullWidth>
