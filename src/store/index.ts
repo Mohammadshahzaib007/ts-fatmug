@@ -1,6 +1,7 @@
 import { createStore, compose, applyMiddleware, combineReducers  } from 'redux';
 import thunk, { ThunkMiddleware } from 'redux-thunk';
 import authReducer from './reducers/authReducer';
+import postReducer from './reducers/postReducer';
 import snackbarReducer from './reducers/snackbarReducer';
 import { AppActionTypes } from './types/action';
 
@@ -20,7 +21,8 @@ const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
   snackbar: snackbarReducer,
-  auth: authReducer
+  auth: authReducer,
+  post: postReducer
 });
 
 export type AppState = ReturnType<typeof rootReducer>

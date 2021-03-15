@@ -13,3 +13,14 @@ export interface AuthState {
     error: string | null,
     isLoading: boolean
 }
+
+// for post
+export interface Posts {
+    blogs: Array<{
+        heading:string,
+        description: string,
+        author: string,
+        createdAt: Date,
+        imageUrl: string
+    }>
+}

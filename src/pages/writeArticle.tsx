@@ -6,8 +6,15 @@ import {
   Button,
   FormControl,
 } from "@material-ui/core";
+import { Color } from "@material-ui/lab/Alert";
 import React, { useState } from "react";
+import { connect } from "react-redux";
+import { ThunkDispatch } from "redux-thunk";
 import placeholder from "../assets/placeholder.png";
+import { onAddPost } from "../store/actions/post";
+import { openSnackbar } from "../store/actions/snackbar";
+import { AppActionTypes } from "../store/types/action";
+import { SnackbarState } from "../store/types/types";
 
 const useStyles = makeStyles({
   label: {
@@ -21,12 +28,30 @@ const useStyles = makeStyles({
   },
 });
 
-function WriteArticle() {
+type Props = {
+  onAddPost: (
+    heading: string,
+    description: string,
+    image: null | Blob,
+    imageName: string
+  ) => void;
+  openSnackbar: (payload: SnackbarState) => void;
+};
+
+function WriteArticle(props: Props) {
   const classes = useStyles();
-  const [{ alt, src, name, file }, setImg] = useState<{alt: string, src: string, name: string, file: File | null}>({
+
+  const { onAddPost, openSnackbar } = props;
+
+  const [{ alt, src, name, file }, setImg] = useState<{
+    alt: string;
+    src: string;
+    name: string;
+    file: Blob | null;
+  }>({
     src: placeholder,
     alt: "Upload an Image",
-    name: '',
+    name: "",
     file: null,
   });
 
@@ -44,9 +69,8 @@ function WriteArticle() {
   };
 
   const handleImg = (e: React.ChangeEvent<HTMLInputElement>): void => {
-
     const file = e.target.files![0];
-    
+
     if (file) {
       setImg({
         src: URL.createObjectURL(file),
@@ -57,8 +81,40 @@ function WriteArticle() {
     }
   };
 
+  const pusblishBtn = document.getElementById("publish-button")!;
+
+  const postAddHandler = () => {
+    if (post.title === "" || post.description === "" || post.img === null) {
+      openSnackbar({
+        color: "error",
+        open: true,
+        msg: "Please enter valid data with image",
+      });
+      return;
+    }
+    onAddPost(post.title, post.description, file, name);
+    setPost({
+      ...post,
+      title: "",
+      description: "",
+      img: null,
+    });
+  };
+
   return (
     <section>
+      <Button
+        // onClick={postAddHandler}
+        style={{
+          marginLeft: "1.875rem",
+          color: "white",
+          borderColor: "white",
+        }}
+        variant="contained"
+        color="secondary"
+      >
+        Publish
+      </Button>
       <Container>
         <Grid container>
           <Grid item xs={12}>
@@ -84,7 +140,9 @@ function WriteArticle() {
                 name="description"
                 rows="20"
                 id="description"
-                inputProps={{ style: { fontSize: "1.5625rem" } }} // font size of input text
+                inputProps={{
+                  style: { fontSize: "1.5625rem", lineHeight: "1.3" },
+                }} // font size of input text
                 fullWidth
                 variant="filled"
                 multiline
@@ -99,6 +157,7 @@ function WriteArticle() {
                   style={{ display: "none" }}
                   multiple
                   type="file"
+                  id="contained-button-file"
                 />
                 <label htmlFor="contained-button-file">
                   <Button variant="contained" color="primary" component="span">
@@ -133,4 +192,18 @@ function WriteArticle() {
   );
 }
 
-export default WriteArticle;
+const mapDispatchToProps = (
+  dispatch: ThunkDispatch<any, any, AppActionTypes>
+) => {
+  return {
+    onAddPost: (
+      heading: string,
+      description: string,
+      image: Blob | null,
+      imageName: string
+    ) => dispatch(onAddPost(heading, description, image, imageName)),
+    openSnackbar: (payload: SnackbarState) => dispatch(openSnackbar(payload)),
+  };
+};
+
+export default connect(null, mapDispatchToProps)(WriteArticle);

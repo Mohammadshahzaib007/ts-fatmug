@@ -160,7 +160,7 @@ function Login(props: Props) {
                   onClick={onSubmitHandler}
                   disabled={isLoading}
                 >
-                {isLoading ? <CircularProgress  size={20} style={{color: 'white'}} /> : ' SIGN up'}
+                {isLoading ? <CircularProgress  size={20} style={{color: 'white'}} /> : ' login'}
                 </Button>
               </FormControl>
             </div>

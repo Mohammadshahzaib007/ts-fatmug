@@ -10,3 +10,7 @@ export const LOG_OUT_START = 'LOG_OUT_START'
 export const LOG_OUT_SUCCESS = 'LOG_OUT_SUCCESS'
 export const LOG_OUT_FAIL = 'LOG_OUT_FAIL'
 
+// POST ACTION TYPES
+export const ADD_POST = 'ADD_POST';
+export const DELETE_POST = 'DELETE_POST'
+
