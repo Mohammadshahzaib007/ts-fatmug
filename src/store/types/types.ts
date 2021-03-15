@@ -15,12 +15,16 @@ export interface AuthState {
 }
 
 // for post
+export interface Blog {
+    key: string,
+    author: string;
+    createdAt: string;
+    description: string;
+    heading: string;
+    imageUrl: string;
+    userId: string;
+}
+
 export interface Posts {
-    blogs: Array<{
-        heading:string,
-        description: string,
-        author: string,
-        createdAt: Date,
-        imageUrl: string
-    }>
+    blogs: Array<Blog>
 }

@@ -70,6 +70,10 @@ function WriteArticle(props: Props) {
 
   const handleImg = (e: React.ChangeEvent<HTMLInputElement>): void => {
     const file = e.target.files![0];
+    setPost({
+      ...post,
+      img: file,
+    });
 
     if (file) {
       setImg({
@@ -91,32 +95,26 @@ function WriteArticle(props: Props) {
       return;
     }
     onAddPost(post.title, post.description, file, name);
-    setPost({
-      ...post,
-      title: "",
-      description: "",
-      img: null,
-    });
   };
 
   return (
-    <section >
-      <Container style={{display: 'flex', flexDirection: 'column'}}>
-      <Button
-        onClick={postAddHandler}
-        style={{
-          marginLeft: "1.875rem",
-          color: "white",
-          borderColor: "white",
-          width: 'fit-content',
-          height: '35px',
-          alignSelf: 'flex-end'
-        }}
-        variant="contained"
-        color="secondary"
-      >
-        Publish
-      </Button>
+    <section>
+      <Container style={{ display: "flex", flexDirection: "column" }}>
+        <Button
+          onClick={postAddHandler}
+          style={{
+            marginLeft: "1.875rem",
+            color: "white",
+            borderColor: "white",
+            width: "fit-content",
+            height: "35px",
+            alignSelf: "flex-end",
+          }}
+          variant="contained"
+          color="secondary"
+        >
+          Publish
+        </Button>
         <Grid container>
           <Grid item xs={12}>
             <FormControl fullWidth>
@@ -167,7 +165,7 @@ function WriteArticle(props: Props) {
                   {name}
                 </label>
               </div>
-              {/* <img alt="" /> */}
+              <img alt="" />
               <div
                 style={{
                   width: "100%",

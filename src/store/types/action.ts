@@ -1,5 +1,5 @@
 import { AUTH_START, AUTH_SUCCESS, AUTH_FAIL, CLOSE_SNACKBAR, OPEN_SNACKBAR, LOG_OUT_START, LOG_OUT_SUCCESS, LOG_OUT_FAIL, ADD_POST, DELETE_POST, FETCH_BLOGS } from "../actions/actionTypes";
-import { Posts, SnackbarState } from "./types";
+import { Blog,  SnackbarState } from "./types";
 
 // FOR SNACKBAR
 export interface OpenSnackbar {
@@ -57,7 +57,8 @@ export interface DeletePost {
 }
 
 export interface FetchPost {
-    type: typeof FETCH_BLOGS
+    type: typeof FETCH_BLOGS,
+    payload: Array<Blog>
 }
 
 export type PostActionTypes = AddPost | DeletePost | FetchPost

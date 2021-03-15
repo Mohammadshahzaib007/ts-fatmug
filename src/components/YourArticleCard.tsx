@@ -7,7 +7,8 @@ const useStyles = makeStyles({
   container: {
     width: '100%',
     display: 'flex',
-    alignItems: 'center'
+    alignItems: 'center',
+    margin: '20px 0'
   },
   iconsContainer: {
     marginLeft: 'auto'
@@ -15,7 +16,6 @@ const useStyles = makeStyles({
   imgContainer: {
     width: '200px',
     height: '200px',
-    background: 'yellow'
   },
   headingContainer: {
     width: '65%',
@@ -37,10 +37,10 @@ function YourArticleCard (props: Props) {
     
   return (
     <div className={classes.container}>
-      <div className={classes.imgContainer}>{imgSrc}</div>
+      <div className={classes.imgContainer}><img src={imgSrc} style={{width: '100%', height: '100%'}} alt={heading} /></div>
       <div className={classes.headingContainer}>
         <h1>{heading}</h1>
-        <p>
+        <p style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>
           {desc}
         </p>
       </div>

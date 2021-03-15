@@ -6,17 +6,23 @@ import { connect } from "react-redux";
 import { ThunkDispatch } from "redux-thunk";
 import { AppActionTypes } from "../store/types/action";
 import { onFetchBlogs } from "../store/actions/post";
+import { AppState } from "../store";
+import { Blog } from "../store/types/types";
 
 type Props = {
   onFetchBlogs: Function;
+  blogs: Array<Blog>;
 };
 
 function Home(props: Props) {
-  const { onFetchBlogs } = props;
+  const { onFetchBlogs, blogs } = props;
 
   useEffect(() => {
     onFetchBlogs();
   }, []);
+
+  console.log(blogs);
+
 
   return (
     <section>
@@ -31,6 +37,16 @@ function Home(props: Props) {
               author="shahzaib"
               organization="Croudit"
             />
+            {blogs.map((item) => (
+              <HomePageBlogCard
+              key={item.key}
+                imageLink={item.imageUrl}
+                heading={item.heading}
+                description={item.description}
+                author={item.author}
+                organization="Croudit"
+              />
+            ))}
           </Grid>
           {/* TOP ARTICLES PART */}
           <Grid item md={6} sm={12}>
@@ -70,6 +86,12 @@ function Home(props: Props) {
   );
 }
 
+const mapStateToProps = (state: AppState) => {
+  return {
+    blogs: state.post.blogs,
+  };
+};
+
 const mapDispatchToProps = (
   dispatch: ThunkDispatch<any, any, AppActionTypes>
 ) => {
@@ -78,4 +100,4 @@ const mapDispatchToProps = (
   };
 };
 
-export default connect(null, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

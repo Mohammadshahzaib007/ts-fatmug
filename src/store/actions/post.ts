@@ -2,6 +2,7 @@ import { Dispatch } from "redux"
 import { AppState } from ".."
 import { database, storage } from "../../firebase"
 import { AppActionTypes } from "../types/action"
+import { Blog } from "../types/types"
 import { ADD_POST, DELETE_POST, FETCH_BLOGS } from "./actionTypes"
 import { openSnackbar } from "./snackbar"
 
@@ -18,9 +19,10 @@ export const deletePost = (): AppActionTypes => {
     }
 }
 
-export const fetchBlogs = (): AppActionTypes => {
+export const fetchBlogs = (payload: Array<Blog>): AppActionTypes => {
     return {
-        type: FETCH_BLOGS
+        type: FETCH_BLOGS,
+        payload: payload
     }
 }
 
@@ -56,13 +58,27 @@ export const onAddPost = (heading: string, description: string, image: Blob | nu
 
 // fetching all the blogs for home page
 export const onFetchBlogs = () => {
-    return (dispatch: Dispatch<AppActionTypes>) => {
+    return  (dispatch: Dispatch<AppActionTypes>, getState:() => AppState) => {
+        let blogs: Array<Blog>
+            = []
         // firebase database refrence
-        dispatch(fetchBlogs())
         const blogsRef = database.ref('blogs');
-        blogsRef.on('value', (snapshot) => {
+       blogsRef.on('value', (snapshot) => {
             const data = snapshot.val();
-            console.log(data)
+
+            Object.keys(data).map((key) => {
+                blogs.push({
+                    key: key,
+                    author: data[key].author,
+                    createdAt: data[key].createdAt,
+                    description: data[key].description,
+                    heading: data[key].heading,
+                    imageUrl: data[key].imageUrl,
+                    userId: data[key].userId
+                });
+            })
         })
+        dispatch(fetchBlogs(blogs))
+        console.log(getState().post.blogs)
     }
 }

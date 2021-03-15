@@ -14,7 +14,8 @@ import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: '100%'
+    maxWidth: '100%',
+    margin: '20px 0'
   }
 });
 
@@ -51,7 +52,7 @@ const  { heading, description, imageLink, author, organization } = props
             </Typography>{' '}
           </div>
 
-          <Typography gutterBottom variant="h4" component="h1" style={{ fontWeight: 700 }}>
+          <Typography gutterBottom variant="h4" component="h1" style={{ fontWeight: 700,textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
             {heading}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p" style={{ color: 'black' }}>
