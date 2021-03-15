@@ -19,7 +19,7 @@ function Home(props: Props) {
 
   useEffect(() => {
     onFetchBlogs();
-  }, []);
+  }, [blogs]);
 
   console.log(blogs);
 
