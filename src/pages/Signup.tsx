@@ -13,7 +13,7 @@ import {
 import AccountCircle from "@material-ui/icons/AccountCircle";
 import LockIcon from "@material-ui/icons/Lock";
 
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import { connect } from "react-redux";
 import { AppActionTypes } from "../store/types/action";
 import { openSnackbar } from "../store/actions/snackbar";
@@ -41,12 +41,15 @@ type Props = {
   openSnackbar: (payload: SnackbarState) => void;
   onAuth: (email: string, password: string, name: string) => void;
   isLoading: boolean;
+  userId: string
 };
 
 function Signup(props: Props) {
   const classes = useStyles();
 
-  const { openSnackbar, onAuth, isLoading } = props;
+  const { openSnackbar, onAuth, isLoading, userId } = props;
+
+  const history = useHistory()
 
   const [state, setState] = useState({
     name: "",
@@ -73,7 +76,8 @@ function Signup(props: Props) {
     }
 
     // FROM REDUX
-    onAuth(state.email, state.password, state.name);
+    onAuth(state.email, state.password, state.name)
+    userId && history.push('/')
   };
 
   return (
@@ -201,7 +205,9 @@ const mapDispatchToProps = (
 const mapStateToProps = (state: AppState) => {
   return {
     isLoading: state.auth.isLoading,
+    userId: state.auth.userId
   };
 };
 
+// @ts-ignore
 export default connect(mapStateToProps, mapDispatchToProps)(Signup);

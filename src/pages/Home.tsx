@@ -30,6 +30,7 @@ function Home(props: Props) {
         <Grid container spacing={4}>
           <Grid item md={6} sm={12}>
             <HomePageBlogCard
+            id="dksaf;lksadl"
               imageLink="https://picsum.photos/seed/picsum/500/300"
               heading="Lizard"
               description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
@@ -44,7 +45,8 @@ function Home(props: Props) {
                 heading={item.heading}
                 description={item.description}
                 author={item.author}
-                organization="Croudit"
+                organization="fatmug"
+                id={item.userId}
               />
             ))}
           </Grid>

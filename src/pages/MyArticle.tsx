@@ -50,16 +50,23 @@ function MyArticle(props: Props) {
                 your SUBMITTED articles
               </Typography>
             </div>
-            <YourArticleCard
-              heading="10 React Interview Questions for 2020"
-              desc="Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy text ever
-                since the 1500s ...."
-              imgSrc="link"
-            />
+            {myBlogs.length === 0 && (
+              <Typography
+                variant="h5"
+                color="secondary"
+                component="h1"
+                style={{
+                  textTransform: "uppercase",
+                  fontWeight: 700,
+                  letterSpacing: "5px",
+                }}
+              >
+                you haven't written anything yet!
+              </Typography>
+            )}
             {myBlogs.map((item) => (
               <YourArticleCard
-              key={item.key}
+                key={item.key}
                 heading={item.heading}
                 desc={item.description}
                 imgSrc={item.imageUrl}

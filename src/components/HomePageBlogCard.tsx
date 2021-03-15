@@ -10,6 +10,7 @@ import Typography from '@material-ui/core/Typography';
 import StarBorderIcon from '@material-ui/icons/StarBorder';
 import IconButton from '@material-ui/core/IconButton';
 import InfoOutlinedIcon from '@material-ui/icons/InfoOutlined';
+import { Link } from 'react-router-dom';
 
 
 const useStyles = makeStyles({
@@ -25,15 +26,17 @@ interface Props {
     description: string,
     imageLink: string,
     author: string,
-    organization: string
+    organization: string,
+    id: string
   }
 
 export default function HomePageBlogCard (props: Props) {
   const classes = useStyles();
 
-const  { heading, description, imageLink, author, organization } = props
+const  { heading, description, imageLink, author, organization, id } = props
 
   return (
+    <Link to={"/article/" + id}>
     <Card className={classes.root}>
       <CardActionArea>
         <CardMedia
@@ -55,7 +58,7 @@ const  { heading, description, imageLink, author, organization } = props
           <Typography gutterBottom variant="h4" component="h1" style={{ fontWeight: 700,textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
             {heading}
           </Typography>
-          <Typography variant="body2" color="textSecondary" component="p" style={{ color: 'black' }}>
+          <Typography variant="body2" color="textSecondary" component="p" style={{ color: 'black',textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden' }}>
             {description}
           </Typography>
         </CardContent>
@@ -72,6 +75,8 @@ const  { heading, description, imageLink, author, organization } = props
         </IconButton>
       </CardActions>
     </Card>
+    </Link>
+    
   );
 }
 

@@ -37,7 +37,7 @@ function YourArticleCard (props: Props) {
     
   return (
     <div className={classes.container}>
-      <div className={classes.imgContainer}><img src={imgSrc} style={{width: '100%', height: '100%'}} alt={heading} /></div>
+      <div className={classes.imgContainer}><img src={imgSrc} style={{width: '100%', height: '100%', objectFit: 'contain'}} alt={heading} /></div>
       <div className={classes.headingContainer}>
         <h1>{heading}</h1>
         <p style={{textOverflow: 'ellipsis', whiteSpace: 'nowrap', overflow: 'hidden'}}>

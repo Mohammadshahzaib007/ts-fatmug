@@ -1,9 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import { Container, Grid, Typography, IconButton } from "@material-ui/core";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 import AccountCircleOutlinedIcon from "@material-ui/icons/AccountCircleOutlined";
+import { connect } from "react-redux";
+import { AppState } from "../store";
+import { Blog } from "../store/types/types";
+import { useParams } from "react-router";
 
-function ArticleView() {
+type Props = {
+  blogs: Array<Blog>;
+};
+
+function ArticleView(props: Props) {
+  const { blogs } = props;
+
+  // @ts-ignore
+  const {blogId} = useParams();
+
+  const [blog, setBlog] = useState<Array<Blog>>([]);
+
+  // for (const item of blogs) {
+  //     if() {
+
+  //     }
+  // }
+
+  console.log(blogId);
+
   return (
     <Container>
       <Grid container>
@@ -93,4 +116,10 @@ function ArticleView() {
   );
 }
 
-export default ArticleView;
+const mapStateToProps = (state: AppState) => {
+  return {
+    blogs: state.post.blogs,
+  };
+};
+
+export default connect(mapStateToProps, null)(ArticleView);

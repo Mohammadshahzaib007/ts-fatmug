@@ -44,7 +44,7 @@ function App(props: Props) {
             {" "}
             <Route exact path="/" component={Home} />
             <Route exact path="/write" component={writeArticle} />
-            <Route exact path="/article-view" component={ArticleView} />
+            <Route exact path="/article/:blogId" component={ArticleView} />
             <Route exact path="/your-articles" component={MyArticle} />{" "}
           </>
         )}
