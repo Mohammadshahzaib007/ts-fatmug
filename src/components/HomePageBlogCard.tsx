@@ -51,7 +51,7 @@ const  { heading, description, imageLink, author, organization, id } = props
             <InfoOutlinedIcon />{' '}
             <Typography style={{ textTransform: 'capitalize', marginLeft: '10px' }}>
               {' '}
-              <b>{author}</b> in <b>{organization}</b>{' '}
+              <b>{author}</b>  <b>{organization}</b>{' '}
             </Typography>{' '}
           </div>
 

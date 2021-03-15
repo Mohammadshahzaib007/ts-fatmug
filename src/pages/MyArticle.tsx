@@ -66,6 +66,7 @@ function MyArticle(props: Props) {
             )}
             {myBlogs.map((item) => (
               <YourArticleCard
+                blogId={item.userId}
                 key={item.key}
                 heading={item.heading}
                 desc={item.description}

@@ -23,29 +23,19 @@ function Home(props: Props) {
 
   console.log(blogs);
 
-
   return (
     <section>
       <Container>
         <Grid container spacing={4}>
           <Grid item md={6} sm={12}>
-            <HomePageBlogCard
-            id="dksaf;lksadl"
-              imageLink="https://picsum.photos/seed/picsum/500/300"
-              heading="Lizard"
-              description="Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-              across all continents except Antarctica"
-              author="shahzaib"
-              organization="Croudit"
-            />
             {blogs.map((item) => (
               <HomePageBlogCard
-              key={item.key}
+                key={item.key}
                 imageLink={item.imageUrl}
                 heading={item.heading}
                 description={item.description}
                 author={item.author}
-                organization="fatmug"
+                organization=""
                 id={item.userId}
               />
             ))}
